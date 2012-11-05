@@ -93,6 +93,7 @@ void setup() {
     try
     {
       player = new SamplePlayer(ac, new Sample(sketchPath("") + "Drum_Loop_01.wav")); // load up a new SamplePlayer using an included audio file
+      //player = new SamplePlayer(ac,  new Sample(sketchPath("") + "dubstep.wav"));
       g.addInput(player); // connect the SamplePlayer to the master Gain
     }
     catch(Exception e)
@@ -130,8 +131,25 @@ void mouseMoved() {
     float mouseVelY = (mouseY - pmouseY) * invHeight;
     
 
+    //println("mouse x: " + mouseX);
+    //println("mouse y: " + mouseY);
+    //addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY);
+    //addForce(0.5, 0, 0, 0.01);
+    /*
+    for(int i = 0; i < width; i+=50) {
+      float mx = i * invWidth;
+      float my = 0;
+      float vx =  0;
+      float vy = 0.01;
     
-    addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY);
+      addForce(mx, my, vx, vy);
+      
+      /*println("x:" + mx);
+      println("y:" + my);
+      println("vx:" + vx);
+      println("vy:" + vy); 
+    }
+   */
 }
 
 void draw() {
@@ -142,8 +160,9 @@ void draw() {
     float[] features = ps.getFeatures(); // get the data from the PowerSpectrum object
   
     // if any features are returned
+     
     if(features != null)
-    {
+    { /*
       stroke(fore);
       background(back);
       // for each x coordinate in the Processing window
@@ -153,11 +172,33 @@ void draw() {
         int featureIndex = (x * features.length) / width; // figure out which featureIndex corresponds to this x-position
         int barHeight = Math.min((int)(features[featureIndex] * height), height - 1); // calculate the bar height for this feature
         //line(x, height, x, height - barHeight); // draw on screen
-        //addForce(x * invWidth, height * invHeight, x * invWidth,  (height - barHeight) * invHeight);
-       }
+        addForce(x * invWidth, height * invHeight, x * invWidth,  (height - barHeight) * invHeight);
+       } */
+       
+      for(int i = 0; i < width; i+=50) {
+        int featureIndex = (i * features.length) / width;  // figure out which featureIndex corresponds to this x-position
+        int barHeight = Math.min((int)(features[featureIndex] * height), height - 1);  //calculate the bar height for this feature
+        float mx = i * invWidth;
+        float my = 0;
+        float vx =  0;
+        float vy = (barHeight * invHeight) / 5;  //0.01;
+   
+        //
+        if( barHeight != 0 ) {
+           //println("bar height:" + barHeight);
+           addForce(mx, my, vx, vy);
+        }
+         
+        /*
+        println("y:" + my);
+        println("vx:" + vx);
+        println("vy:" + vy); 
+        */
+      }
     }
+     
     /* this is the audio portion */
-    
+
     if(drawFluid) {
         for(int i=0; i<fluidSolver.getNumCells(); i++) {
             int d = 2;
@@ -167,7 +208,7 @@ void draw() {
         image(imgFluid, 0, 0, width, height);
     } 
     
-    particleSystem.updateAndDraw(); 
+    particleSystem.updateAndDraw();  
 }
 
 void mousePressed() {
