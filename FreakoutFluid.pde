@@ -94,6 +94,7 @@ void setup() {
     {
       player = new SamplePlayer(ac, new Sample(sketchPath("") + "Drum_Loop_01.wav")); // load up a new SamplePlayer using an included audio file
       //player = new SamplePlayer(ac,  new Sample(sketchPath("") + "dubstep.wav"));
+      //player = new SamplePlayer(ac,  new Sample(sketchPath("") + "one.wav"));
       g.addInput(player); // connect the SamplePlayer to the master Gain
     }
     catch(Exception e)
@@ -133,7 +134,7 @@ void mouseMoved() {
 
     //println("mouse x: " + mouseX);
     //println("mouse y: " + mouseY);
-    //addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY);
+    addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY);
     //addForce(0.5, 0, 0, 0.01);
     /*
     for(int i = 0; i < width; i+=50) {
